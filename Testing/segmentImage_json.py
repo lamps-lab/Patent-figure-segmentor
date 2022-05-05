@@ -11,10 +11,10 @@ import time
 #from skimage.io import imread_collection
 import argparse
 import glob
-from processing_updated import get_args, figure_only, extract_label_bboxes
+from Testing.processing_updated import get_args, figure_only, extract_label_bboxes
 #from output_new import finetune_label
-from processing_updated import calc_label_center
-from processing_updated import AmazonDist_label_image
+from Testing.processing_updated import calc_label_center
+from Testing.processing_updated import AmazonDist_label_image
 import re 
 from multiprocessing import Pool, Process
 import multiprocessing as mp

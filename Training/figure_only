@@ -17,7 +17,6 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-start = time.perf_counter()
 """
 This function defines the command-line arguments
 """
@@ -57,16 +56,6 @@ def get_amazonFiles(index):
             return label_info, current_ama
     except Exception as error:
         print(error)
-
-# """This function sorts the figure files to properly align with the amazon files"""
-# def get_imageFiles():
-#     parser = get_args()
-#     args = parser.parse_args()
-#     img_dir = args.file_path
-#     img_paths = os.listdir(img_dir)
-#     # sort the amazon filenames
-#     #img_paths.sort() 
-#     return img_paths
 
 """This function takes in the label info and returns label
 bounding box and label name
@@ -284,60 +273,6 @@ def label_points(index):
     return label_conv_points, label_names, current_img
 
 
-"""The function below helps to calculate the distance of the labels 
-which will be used to find the distance between the images and the labels
-"""
-def calc_label_center(index):
-    label_cent = []
-    label_coord, label_names, _= label_points(index)
-    try:
-        
-        # case for a single image
-        if len(label_coord) == 1:
-            left, width, top, height = label_coord[0]
-            # Obtain the center coordinates by adding the top to the height / 2, and adding left to width / 2
-            ptX, ptY = (width / 2 + left), (height / 2 + top)
-            # save it in the label_cent list
-            label_cent.append((ptX, ptY))
-        
-        else:   
-            # case for image with subfigures
-            for coord in label_coord:
-                left, width, top, height = coord
-                # Obtain the center coordinates by adding the top to the height / 2, and adding left to width / 2
-   
-                ptX, ptY = (width / 2 + left), (height / 2 + top)
-                # save it in the label_cent list
-                label_cent.append((ptX, ptY))
-    except Exception as error:
-        print(error)
-    
-    return label_cent, label_names
-
-"""This function calculates the distance between the image and the labels"""
-# # find the distance between the label coordinates and the image coordinates
-def AmazonDist_label_image(image_mid, label_cent):
-    D = {}
-   
-    try:
-        
-        if len(label_cent) == 1:
-            # calculate the distance between the label and image
-            dist = round(distance.euclidean(label_cent[0], image_mid), 2)
-            D[0] = dist
-        else:  
-            # distance for image with subfigures   
-            # loop through the label coordinates and unpack the coordinates
-            for ind1, lab in enumerate(label_cent):
-            
-                # calculate the distance between the label and image
-                dist = round(distance.euclidean(lab, image_mid), 2)
-                D[ind1] = dist      
-    except Exception as error:
-        print(error)
-    return D
-
-
 """ 
 This function loads the image and wipe out the labels 
 using label coordinates from Amazon Rekognition tool
@@ -347,7 +282,7 @@ def figure_only(index):
     # get patent id
     parser = get_args()
     args = parser.parse_args()
-    #output_dir = args.outputDirectory  # directory to save the segmented figures
+    output_dir = args.outputDirectory  # directory to save the segmented figures
     label_coord, lb_names, img_path = label_points(index)
     img_dir = args.file_path   # figures directories  
     image = cv2.imread(os.path.join(img_dir, img_path))
@@ -359,7 +294,7 @@ def figure_only(index):
            # set the pixels in those location to white to wipe out the labels
            image[(top - 1) : (top + height + 1), (left - 1): (left + width + 1)] = (255, 255, 255)
         
-          # cv2.imwrite(os.path.join(output_dir, img_path), image)
+           cv2.imwrite(os.path.join(output_dir, img_path), image)
        else:  
             
            # case for image with subfigures
@@ -369,48 +304,26 @@ def figure_only(index):
                # set the pixels in those location to white to wipe out the labels
                image[(top - 1) : (top + height + 1), (left - 1): (left + width + 1)] = (255, 255, 255)
             
-          # cv2.imwrite(os.path.join(output_dir, img_path), image)
+           cv2.imwrite(os.path.join(output_dir, img_path), image)
     except Exception as error:
         print(error)
 
-    return image, img_path, lb_names
+    #return image, img_path, lb_names
 
-
-"""This function takes the figure without labels and resize it so we can apply the
-transformer model on it."""
-def preprocessing(index):
-    parser = get_args()
-    args = parser.parse_args()
-    process_dir = args.processingDirectory
-    try:
-
-        img, img_path, _ = figure_only(index)
-        image = img.copy()
-    
-        #### Saving input images #################
-        original_res= resize(image, (128, 128, 3), mode='constant', preserve_range=True)
-        cv2.imwrite(os.path.join(process_dir, img_path), original_res)
-
-        #return original_res, img_path
-    except Exception as error:
-        print(error)
     
 
-parser = get_args()
-args = parser.parse_args()
-img_paths = args.file_path
-rel_paths = os.listdir(img_paths)
+
 
 #This runs the processing in parallel across the cpu cores
-# if __name__ == "__main__":
-#     indices = list(range(len(rel_paths)))
-#     p = mp.cpu_count()   # count the number of cpus
-#     process = Pool(p)
-#     result = process.map(preprocessing, indices)
-#    # result = process.map(figure_only, indices)
-#     process.close()
-#     process.join()
+if __name__ == "__main__":
+    parser = get_args()
+    args = parser.parse_args()
+    img_paths = args.file_path
+    rel_paths = os.listdir(img_paths)
 
-# finish = time.perf_counter()
-
-# print("Finished in {} seconds".format(round(finish - start), 2))
+    indices = list(range(len(rel_paths)))
+    p = mp.cpu_count()   # count the number of cpus
+    process = Pool(p)
+    result = process.map(figure_only, indices)
+    process.close()
+    process.join()
