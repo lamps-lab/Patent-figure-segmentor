@@ -15,7 +15,7 @@ def get_args():
 
     return args
 
-def preprocessing(data, result_location_img,result_location_mask):
+def preprocessing():
     print('************************* Preprocessing start and Mask Generation using Point-shooting Method ***************************')
     args = get_args()
     data = args.image_dir
@@ -56,3 +56,5 @@ def preprocessing(data, result_location_img,result_location_mask):
     print('*********************************** Preprocessing done *************************')
 
 
+if __name__ == '__main__':
+    preprocessing()
