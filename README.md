@@ -5,7 +5,7 @@
 1. Before training the transformer model, we remove the labels of each sub-figure from the image using Amazon Rekognition. Run the command below from "Training" directory:
     - python3 figure_only.py --filepath <path/to/image/files> --amazonDirectory <path/to/amazon/files> --outputDirectory <path/to/save/figures/with/no/labels>
 
-2. Next, we use point shooting method to create a segmentation mask which serves as labels for the transformer model. We will do this for both training and validation.
+2. Next, we use point shooting method to create a segmentation mask which serves as labels for the transformer model. We do this for both training and validation.
    - Create a training folder and validation folder. Inside each folder, create two separate folders and name them "img" and "labelcol".
    - The "img" folder is where we will put the resized images of size 128 by 128 pixels, while "labelcol" is where we put the segmentation masks.
    - Run the point shooting method below to resize and create masks for both training and validation:
