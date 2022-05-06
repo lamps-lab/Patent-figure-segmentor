@@ -366,7 +366,7 @@ def figure_only(index):
     return image, img_path, lb_names
 
 
-"""This function takes the figure without labels and resize it so we can apply the
+"""This function takes the figure without labels and resize it to 128 by 128 pixels so we can apply the
 transformer model on it."""
 def preprocessing(index):
     parser = get_args()
@@ -386,21 +386,21 @@ def preprocessing(index):
         print(error)
     
 
-parser = get_args()
-args = parser.parse_args()
-img_paths = args.file_path
-rel_paths = os.listdir(img_paths)
 
-#This runs the processing in parallel across the cpu cores
-# if __name__ == "__main__":
-#     indices = list(range(len(rel_paths)))
-#     p = mp.cpu_count()   # count the number of cpus
-#     process = Pool(p)
-#     result = process.map(preprocessing, indices)
-#    # result = process.map(figure_only, indices)
-#     process.close()
-#     process.join()
 
-# finish = time.perf_counter()
+#This runs the processing in parallel across all the cpu cores
+if __name__ == "__main__":
+    parser = get_args()
+    args = parser.parse_args()
+    img_paths = args.file_path
+    rel_paths = os.listdir(img_paths)
+    indices = list(range(len(rel_paths)))
+    p = mp.cpu_count()   # count the number of cpus
+    process = Pool(p)
+    result = process.map(preprocessing, indices)
+    process.close()
+    process.join()
 
-# print("Finished in {} seconds".format(round(finish - start), 2))
+finish = time.perf_counter()
+
+print("Finished in {} seconds".format(round(finish - start), 2))
