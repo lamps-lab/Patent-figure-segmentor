@@ -9,7 +9,7 @@ from skimage.transform import resize
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--image_dir", help = "path to the figure_only images")
-    parser.add_argument("--img", help = "path to resized figures without labels")
+    parser.add_argument("--img", help = "path to save resized figures without labels")
     parser.add_argument("--mask", help = "path to save masked images")
     args = parser.parse_args()
 

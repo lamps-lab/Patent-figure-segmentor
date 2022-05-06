@@ -23,13 +23,9 @@ This function defines the command-line arguments
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("file_path", help = "Figures input directory")
+    parser.add_argument("--file_path", help = "Figures input directory")
     parser.add_argument("--amazonDirectory", help = "Amazon label bounding boxes")
     parser.add_argument("--outputDirectory", help = "directory to save the segmented images")
-    parser.add_argument("--jsonDirectory", help = "directory to save the json output")
-    parser.add_argument("--TransformerDirectory", help = "directory to store the output of the Transformer model")
-    parser.add_argument("--processingDirectory", help = "directory to store the output of resizing the images")
-    parser.add_argument("--jsonFilename", help = "Name of output json file")
     
     return parser
 
@@ -43,9 +39,7 @@ def get_amazonFiles(index):
     amazon_dir = args.amazonDirectory
     amazon_files = os.listdir(amazon_dir)
     # sort the amazon filenames
-    #amazon_files.sort()
     current_ama = amazon_files[index]
-    #print(current_ama)
     amazon_fpath = os.path.join(amazon_dir, current_ama)
     try:
         # check if the amazon file in not empty
@@ -242,9 +236,7 @@ def label_points(index):
     label_conv_points = []
     label_names = []
     # get the current figure file
-    #current_img = img_paths[index]
     current_img = current_ama[:-4] + "png"
-    #img_path = os.path.join(img_dir, current_img)
     
     try:
         img = cv2.imread(os.path.join(img_dir, current_img))
@@ -282,7 +274,7 @@ def figure_only(index):
     # get patent id
     parser = get_args()
     args = parser.parse_args()
-    output_dir = args.outputDirectory  # directory to save the segmented figures
+    output_dir = args.outputDirectory  # directory to save the figures with no labels
     label_coord, lb_names, img_path = label_points(index)
     img_dir = args.file_path   # figures directories  
     image = cv2.imread(os.path.join(img_dir, img_path))
@@ -311,8 +303,6 @@ def figure_only(index):
     #return image, img_path, lb_names
 
     
-
-
 
 #This runs the processing in parallel across the cpu cores
 if __name__ == "__main__":
