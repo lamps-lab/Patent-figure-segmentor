@@ -6,7 +6,7 @@
 - The DeepPatent2 dataset contains over 4 million design patent drawings in total (Original and Segmented) obtained from the United States Patent and Trademark Office (USPTO). It spans from year 2007 to 2020. The dataset contains compound drawings with sub-images up to 10. Our dataset contains two sub-directories and 1 file in each **year** directory:
     - **Original**: It contains the extracted patent drawings from USPTO in PNG format
     - **Segmented**: It contains the segmented drawings obtained from applying our segmentation pipeline on the Original drawings
-    - design*.json: It contains the metadata obtained from the segmentation. The fields include patentID, Figure_file, subfigure_file, caption, aspect, subfigure_label, e.t.c.
+    - design*.json: It contains the metadata obtained from the segmentation. The fields in the metadata include patentID, Figure_file, subfigure_file, caption, aspect, subfigure_label, e.t.c.
 
 ## Components of DeepPatent2 Pipeline
 - This project is about the segmentation of patent drawings using a pipeline integrated with Transformer model.
