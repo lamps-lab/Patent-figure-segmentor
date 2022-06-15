@@ -1,6 +1,13 @@
 # DeepPatent2 Figure Segmentation
 **Abstract**: Recent advances in computer vision (CV) and natural language processing (NLP) have been driven by exploiting big data to explore many practical applications. However, these research fields are still limited not only by the sheer volume, but also by the versatility and diversity, of the available datasets. CV tasks, such as image captioning, have primarily been carried out on natural images. Despite the efficiency of the state-of-the-art (SOTA) captioning models on natural images, they still struggle to produce accurate and meaningful captions on sketched images. In this paper, we introduce DeepPatent2, a new large-scale dataset for patent figure understanding. This dataset provides more than 2.8 million sketched images with 132,890 object categories extracted from US design patent documents. We demonstrate the usefulness of DeepPatent2 to the CV and NLP communities with two use cases namely, image segmentation and image captioning. We trained a baseline image captioning model on a subset of our dataset to produce captions that focus on identifying the actual object and different viewpoints of patent figures. Our model achieves METEOR and ROUGE-l scores of 62.7\% and 63.4\% on the test data. For the image segmentation task, we used a transformer-based method to segment the technical drawings in DeepPatent2, and achieved a 99.5\% accuracy on the test data. The experiments showcased the potential usefulness of our dataset to facilitate future research such as image grounding on sketched images and technical drawings. The Deeppatent2 dataset is publicly available at https://bit.ly/3xsyAty under the CC BY-NC license.
 
+
+## Data Description
+- The DeepPatent2 dataset contains over 4 million design patent drawings in total (Original and Segmented) obtained from the United States Patent and Trademark Office (USPTO). It spans from 2007 to 2020. The dataset contains compound drawings with sub-images up to 10. Our dataset contains two sub-directories and 1 file in each **year** directory:
+    - **Original**: It contains the extracted patent drawings from USPTO in PNG format
+    - **Segmented**: It contains the segmented drawings obtained from applying our segmentation pipeline on the Original drawings
+    - design*.json: It contains the metadata obtained from the segmentation. The fields include patentID, Figure_file, subfigure_file, caption, aspect, subfigure_label, e.t.c.
+
 ## Components of DeepPatent2 Pipeline
 - This project is about the segmentation of patent drawings using a pipeline integrated with Transformer model.
 ## Training the Transformer model
