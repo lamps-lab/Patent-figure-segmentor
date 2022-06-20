@@ -7,6 +7,7 @@
     - **Original**: It contains the extracted patent drawings from USPTO in PNG format
     - **Segmented**: It contains the segmented drawings obtained from applying our segmentation pipeline on the Original drawings
     - **design\*.json**: It contains the metadata obtained from the segmentation. The fields in the metadata include patentID, Figure_file, subfigure_file, caption, aspect, subfigure_label, e.t.c.
+    - We also includes two json files that contains metadata about objects viewpoints. One of the files contain information from year 2007 to 2020, while the second json file contains information used for the pilot data (2019).
 
 ## Components of DeepPatent2 Pipeline
 - This project is about the segmentation of patent drawings using a pipeline integrated with Transformer model.
