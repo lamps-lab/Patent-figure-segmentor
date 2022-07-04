@@ -56,6 +56,13 @@
     - python3 segmentImage_json.py <image_path> --amazonDirectory <amazon_filepath> --TransformerDirectory <path/where/you/saved/transformer/result> --jsonDirectory <path/to/save/json/file> --outputDirectory <path/to/save/segmented/images> --jsonFilename <name/of/json/file/without/json/extension>
 
 ## Example
-- We have included few images and their corresponding amazon bounding box information in the **testing_files** folder to test the pipeline.  
+- We have included few images and their corresponding amazon bounding box information in the **testing_files** folder to test the pipeline. 
+
+## Applications of the DeepPatent2 dataset
+- The following are some of the useful applications of the DeepPatent2 dataset focusing on technical drawings and patent figures
+    - Image segmentation
+    - Image captioning
+    - Image Classification
+    - Object detection
 
 
